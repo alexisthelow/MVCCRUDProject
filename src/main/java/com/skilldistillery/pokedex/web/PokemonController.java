@@ -5,7 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.skilldistillery.pokedex.data.Pokemon;
 import com.skilldistillery.pokedex.data.PokemonDAO;
@@ -32,7 +35,12 @@ public class PokemonController {
 		return dao.getAllPokemonOnTeam();
 	}
 	
-	
+	@RequestMapping(path = "home.do", method = RequestMethod.GET)
+	public ModelAndView index(@ModelAttribute("activeList") List<Pokemon> activeList) {
+		ModelAndView mv = new ModelAndView("index");
+		
+		return mv;
+	}
 	
 	
 	
