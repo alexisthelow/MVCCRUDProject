@@ -36,7 +36,9 @@ public class PokemonController {
 	}
 	
 	@RequestMapping(path = "home.do", method = RequestMethod.GET)
-	public ModelAndView index(@ModelAttribute("activeList") List<Pokemon> activeList) {
+	public ModelAndView index(@ModelAttribute("activeList") List<Pokemon> activeList, 
+			@ModelAttribute("activePokemon") Pokemon activePokemon,
+			@ModelAttribute("userTeam") List<Pokemon> userTeam) {
 		ModelAndView mv = new ModelAndView("index");
 		
 		return mv;
