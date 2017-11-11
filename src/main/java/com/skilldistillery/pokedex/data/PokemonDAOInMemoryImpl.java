@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -76,7 +77,9 @@ public class PokemonDAOInMemoryImpl implements PokemonDAO {
 
 	@Override
 	public List<Pokemon> getAllPokemon() {
-		return new ArrayList<Pokemon>(pokedex.values());
+		List<Pokemon> list = new ArrayList<Pokemon>(pokedex.values());
+		Collections.sort(list, (p1, p2) -> p1.getId() < p2.getId() ? 1 : -1);
+		return list;
 	}
 
 	@Override
