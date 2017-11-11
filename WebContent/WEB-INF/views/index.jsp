@@ -20,5 +20,13 @@
 				${pokemon.name}
 			</c:forEach>
 		</c:if>
+		<form:form action="showDetail.do" method="get">
+			<form:options>
+				<c:forEach var="pokemon" items="${activeList}">
+					<form:option value="${pokemon.id}">${pokemon.name}</form:option>				
+				</c:forEach>
+			</form:options>
+			<input type="submit" value="View Details">
+		</form:form>
 	</body>
 </html>
