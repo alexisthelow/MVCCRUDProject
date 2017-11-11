@@ -78,7 +78,7 @@ public class PokemonDAOInMemoryImpl implements PokemonDAO {
 	@Override
 	public List<Pokemon> getAllPokemon() {
 		List<Pokemon> list = new ArrayList<Pokemon>(pokedex.values());
-		Collections.sort(list, (p1, p2) -> p1.getId() < p2.getId() ? 1 : -1);
+		Collections.sort(list, (p1, p2) -> p1.getId() < p2.getId() ? -1 : 1);
 		return list;
 	}
 
