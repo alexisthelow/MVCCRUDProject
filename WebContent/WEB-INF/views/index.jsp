@@ -13,11 +13,11 @@
 			${activeList[1].name}
 		</c:if>
 		<c:if test="${not empty activePokemon}">
-			${activePokemon}
+			${activePokemon.name}
 		</c:if>
 		<c:if test="${not empty userTeam}">
 			<c:forEach var="pokemon" items="${userTeam}">
-				${pokemon}
+				${pokemon.name}
 			</c:forEach>
 		</c:if>
 	</body>
