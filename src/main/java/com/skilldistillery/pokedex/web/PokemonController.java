@@ -22,7 +22,7 @@ public class PokemonController {
 		return dao.getPokemonById(1);
 	}
 	
-	@ModelAttribute("activePokemon")
+	@ModelAttribute("activeList")
 	public List<Pokemon> initActiveList() {
 		return dao.getAllPokemon();
 	}
