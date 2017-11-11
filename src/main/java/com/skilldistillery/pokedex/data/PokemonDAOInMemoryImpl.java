@@ -22,6 +22,7 @@ public class PokemonDAOInMemoryImpl implements PokemonDAO {
 	private Map<Integer, Pokemon> pokedex = new HashMap<>();
 	private List<Pokemon> userTeam = new ArrayList<>();
 	private static final String FILE_NAME = "/WEB-INF/pokemon.csv";
+	private static int currentID = 0;
 	
 	@Autowired
 	WebApplicationContext wac;
@@ -32,73 +33,120 @@ public class PokemonDAOInMemoryImpl implements PokemonDAO {
 			String line = buf.readLine();		//discard first line
 			while ((line = buf.readLine()) != null) {
 				String[] tokens = line.split(",");
-
-				//TODO implement data retrieval from csv
-			
+				int id = Integer.parseInt(tokens[0]);
+				PokemonDAOInMemoryImpl.currentID = id + 1;	//keep track of id for user adding
+				String name = tokens[1];
+				String type1 = tokens[2];
+				String type2 = tokens[3];
+				int evolutionStageInChain = Integer.parseInt(tokens[4]);
+				int evolutionChainID = Integer.parseInt(tokens[5]);
+				String description = tokens[6];
+				pokedex.put(id, new Pokemon(id, name, type1, type2, evolutionStageInChain, evolutionChainID, description));
 			}
 		} catch (Exception e) {
 			System.err.println(e);
 		}
 	}
-	
-	
+
 	@Override
 	public Pokemon addPokemon(Pokemon p) {
-		return null;
+		p.setId(currentID++);
+		pokedex.put(p.getId(), p);
+		return p;
 	}
 
 	@Override
-	public Pokemon getPokemonById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+	public Pokemon getPokemonById(int id) {		//either returns a pokemon or null
+		return pokedex.get(id);
+	}
+
+	@Override
+	public Pokemon getPokemonByName(String name) {		//either returns a pokemon or null
+		List<Pokemon> tempList = new ArrayList<>(pokedex.values());
+		Pokemon returnPokemon = null;
+		
+		for (Pokemon p : tempList) {
+			if (p.getName().equalsIgnoreCase(name)) {
+				returnPokemon = p;
+				break;
+			}
+		}
+		return returnPokemon;
 	}
 
 	@Override
 	public List<Pokemon> getAllPokemon() {
-		// TODO Auto-generated method stub
-		return null;
+		return new ArrayList<Pokemon>(pokedex.values());
 	}
 
 	@Override
-	public List<Pokemon> getPokemonByType(Type type) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Pokemon> getPokemonBySingleType(String type) {
+		List<Pokemon> returnList = new ArrayList<>();
+		for (Pokemon p : pokedex.values()) {
+			if (p.getType1().equalsIgnoreCase(type) || p.getType2().equalsIgnoreCase(type)) {
+				returnList.add(p);
+			}
+		}
+		return returnList;
+	}
+
+	@Override
+	public List<Pokemon> getPokemonByBothTypes(String type1, String type2) {
+		List<Pokemon> returnList = new ArrayList<>();
+		for (Pokemon p : pokedex.values()) {
+			if ((p.getType1().equalsIgnoreCase(type1) && p.getType2().equalsIgnoreCase(type2)) || (p.getType1().equalsIgnoreCase(type2) && p.getType2().equalsIgnoreCase(type1))) {
+				returnList.add(p);
+			}
+		}
+		
+		return returnList;
+	}
+
+	@Override
+	public List<Pokemon> getPokemonByEvolutionChainID(int id) {
+		List<Pokemon> returnList = new ArrayList<>();
+		for (Pokemon p : pokedex.values()) {
+			if (p.getEvolutionChainID() == id) {
+				returnList.add(p);
+			}
+		}
+		return returnList;
 	}
 
 	@Override
 	public Pokemon updatePokemonInPokedex(Pokemon p) {
-		// TODO Auto-generated method stub
-		return null;
+		return pokedex.put(p.getId(), p);
 	}
 
 	@Override
 	public Pokemon deletePokemonFromPokedex(Pokemon p) {
-		// TODO Auto-generated method stub
-		return null;
+		return pokedex.remove(p.getId());
 	}
 
 	@Override
 	public Pokemon addPokemonToTeam(Pokemon p) {
-		// TODO Auto-generated method stub
-		return null;
+		userTeam.add(p);
+		return p;
 	}
 
 	@Override
 	public List<Pokemon> getAllPokemonOnTeam() {
-		// TODO Auto-generated method stub
-		return null;
+		return userTeam;
 	}
 
 	@Override
 	public Pokemon updatePokemonOnTeam(Pokemon p) {
-		// TODO Auto-generated method stub
-		return null;
+		userTeam.set(userTeam.indexOf(p), p);
+		return p;
 	}
 
 	@Override
 	public Pokemon removePokemonFromTeam(Pokemon p) {
-		// TODO Auto-generated method stub
-		return null;
+		userTeam.remove(p);
+		return p;
 	}
+	
+	
+	
 
 }

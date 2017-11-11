@@ -9,8 +9,11 @@ public interface PokemonDAO {
 	
 	//read (pokedex)
 	Pokemon getPokemonById(int id);
+	Pokemon getPokemonByName(String name);
 	List<Pokemon> getAllPokemon();
-	List<Pokemon> getPokemonByType(Type type);	
+	List<Pokemon> getPokemonBySingleType(String type);	
+	List<Pokemon> getPokemonByBothTypes(String type1, String type2);
+	List<Pokemon> getPokemonByEvolutionChainID(int id);
 	
 	//update (pokedex)
 	Pokemon updatePokemonInPokedex(Pokemon p);
