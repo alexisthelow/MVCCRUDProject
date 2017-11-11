@@ -21,7 +21,7 @@ public class PokemonDAOInMemoryImpl implements PokemonDAO {
 	
 	private Map<Integer, Pokemon> pokedex = new HashMap<>();
 	private List<Pokemon> userTeam = new ArrayList<>();
-	private static final String FILE_NAME = "/WEB-INF/pokemon.csv";
+	private static final String FILE_NAME = "/WEB-INF/pokemon_master_final.csv";
 	private static int currentID = 0;
 	
 	@Autowired
