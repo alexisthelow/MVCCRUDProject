@@ -11,4 +11,10 @@
 	<context:component-scan base-package="com.skilldistillery.pokedex.web"/>
 	<mvc:annotation-driven/>
 
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/views/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+
 </beans>

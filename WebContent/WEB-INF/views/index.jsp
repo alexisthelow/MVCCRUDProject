@@ -9,6 +9,9 @@
 		<title>Pokedex</title>
 	</head>
 	<body>
+		<c:if test="${not empty activeList}">
+			${activeList[1].name}
 		
+		</c:if>
 	</body>
 </html>
