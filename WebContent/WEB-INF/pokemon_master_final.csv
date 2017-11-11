@@ -1,4 +1,4 @@
-id,identifier,species_id,type_id1,type_id2,evolvesFromID,evolutionChain,description
+id,identifier,species_id,type_id1,type_id2,evolvesFromID,evolutionChainID,description
 1,bulbasaur,1,grass,poison,0,1,"Bulbasaur can be seen napping in bright sunlight. There is a seed on its back. By soaking up the sun’s rays, the seed grows progressively larger."
 2,ivysaur,2,grass,poison,1,1,"There is a bud on this Pokémon’s back. To support its weight, Ivysaur’s legs and trunk grow thick and strong. If it starts spending more time lying in the sunlight, it’s a sign that the bud will bloom into a large flower soon."
 3,venusaur,3,grass,poison,2,1,There is a large flower on Venusaur’s back. The flower is said to take on vivid colors if it gets plenty of nutrition and sunlight. The flower’s aroma soothes the emotions of people.
