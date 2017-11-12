@@ -64,6 +64,17 @@ public class PokemonController {
 		return mv;
 	}
 	
+	@RequestMapping(path = "showDetail.do", method = RequestMethod.GET, params = "typeFilter")
+	public ModelAndView showDetail(@RequestParam("typeFilter") String typeFilter,
+			@ModelAttribute("activeList") List<Pokemon> activeList) {
+		ModelAndView mv = new ModelAndView("details");
+		activeList = dao.getPokemonBySingleType(typeFilter);
+		mv.addObject("activeList", activeList);
+		mv.addObject("activePokemon", activeList.get(0));
+		
+		return mv;
+	}
+	
 	
 	
 	
