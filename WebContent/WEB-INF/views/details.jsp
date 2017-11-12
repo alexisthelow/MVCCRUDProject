@@ -27,6 +27,15 @@
 				<input type="submit" value="${nextPokemon.id}: ${nextPokemon.name}">
 			</form>
 		</c:if>
+		Update Pokemon:
+		<form:form action="updatePokemon.do" method="post" modelAttribute="activePokemon">
+			Name: <form:input path="name"/><form:errors path="name"/><br>
+			Type 1: <form:input path="type1" />
+			Type 2: <form:input path="type2" />
+			Description: <form:input path="description"/>
+			<form:hidden path="id"/>
+			<input type="submit" value="Update Pokemon">
+		</form:form>
 		
 		
 	</body>
