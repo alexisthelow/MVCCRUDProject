@@ -30,8 +30,8 @@
 				</c:forEach>
 			</select>
 			<input type="submit" value="Filter by Type">			
-		
 		</form>
+		<a href="add.do">Add Pokemon to Pokedex</a>
 		
 	</body>
 </html>
