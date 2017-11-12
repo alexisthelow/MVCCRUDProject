@@ -15,7 +15,7 @@ import com.skilldistillery.pokedex.data.Pokemon;
 import com.skilldistillery.pokedex.data.PokemonDAO;
 
 @Controller
-@SessionAttributes({"userTeam", "activePokemon", "activeList", "types"})
+@SessionAttributes({"userTeam", "activePokemon", "activeList", "types", "activeListIndex"})
 public class PokemonController {
 	
 	@Autowired
@@ -24,6 +24,11 @@ public class PokemonController {
 	@ModelAttribute("types")
 	public List<String> initTypeList() {
 		return dao.getTypeList();
+	}
+	
+	@ModelAttribute("activeListIndex")
+	public Integer initActiveListIndex() {
+		return 0;
 	}
 
 	@ModelAttribute("activePokemon")
@@ -56,7 +61,8 @@ public class PokemonController {
 	
 	@RequestMapping(path = "showDetail.do", method = RequestMethod.GET, params = "id")
 	public ModelAndView showDetail(@RequestParam("id") int id,
-			@ModelAttribute("activeList") List<Pokemon> activeList) {
+			@ModelAttribute("activeList") List<Pokemon> activeList,
+			@ModelAttribute("activeListIndex") Integer activeListIndex) {
 		ModelAndView mv = new ModelAndView("details");
 		mv.addObject("activePokemon", dao.getPokemonById(id));
 		mv.addObject("activeList", activeList);
@@ -66,11 +72,13 @@ public class PokemonController {
 	
 	@RequestMapping(path = "showDetail.do", method = RequestMethod.GET, params = "typeFilter")
 	public ModelAndView showDetail(@RequestParam("typeFilter") String typeFilter,
+			@ModelAttribute("activeListIndex") Integer activeListIndex,
 			@ModelAttribute("activeList") List<Pokemon> activeList) {
 		ModelAndView mv = new ModelAndView("details");
 		activeList = dao.getPokemonBySingleType(typeFilter);
 		mv.addObject("activeList", activeList);
 		mv.addObject("activePokemon", activeList.get(0));
+		mv.addObject("activeListIndex", activeListIndex);
 		
 		return mv;
 	}
