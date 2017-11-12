@@ -119,16 +119,32 @@ public class PokemonController {
 	 * @return
 	 */
 	
-	@RequestMapping(path = "showDetail.do", method = RequestMethod.GET, params = "typeFilter")
-	public ModelAndView showDetail(@RequestParam("typeFilter") String typeFilter,
+	@RequestMapping(path = "showDetail.do", method = RequestMethod.GET, params = "typeFilter1")
+	public ModelAndView showDetail(@RequestParam("typeFilter1") String typeFilter1,
+			@RequestParam("typeFilter2") String typeFilter2,
 			@ModelAttribute("activeListIndex") Integer activeListIndex,
 			@ModelAttribute("activeList") List<Pokemon> activeList) {
 		ModelAndView mv = new ModelAndView("details");
-		activeList = dao.getPokemonBySingleType(typeFilter);
+		if (typeFilter2.equals("none")) {
+			activeList = dao.getPokemonBySingleType(typeFilter1);
+		}
+		else {
+			activeList = dao.getPokemonByBothTypes(typeFilter1, typeFilter2);
+		}
 		mv.addObject("activeList", activeList);
 		mv.addObject("previousPokemon", dao.getPokemonById(0));
-		mv.addObject("activePokemon", activeList.get(0));
-		mv.addObject("nextPokemon", activeList.get(1));
+		if (activeList.size() > 0) {
+			mv.addObject("activePokemon", activeList.get(0));
+		}
+		else {
+			mv.addObject("activePokemon", dao.getPokemonById(0));
+		}
+		if (activeList.size() > 1) {
+			mv.addObject("nextPokemon", activeList.get(1));
+		}
+		else {
+			mv.addObject("nextPokemon", dao.getPokemonById(0));
+		}
 		mv.addObject("activeListIndex", 0);
 		
 		return mv;
