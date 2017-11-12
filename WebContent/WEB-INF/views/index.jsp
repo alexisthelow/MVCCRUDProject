@@ -22,6 +22,16 @@
 		
 			<input type="submit" value="View Details">
 		</form>
+		<form action="showDetail.do" method="get">
+			<select name="typeFilter">
+				<option>--Filter by Type--</option>
+				<c:forEach var="type" items="${types}">
+					<option value="${type}">${type}</option>
+				</c:forEach>
+			</select>
+			<input type="submit" value="Filter by Type">			
+		
+		</form>
 		
 	</body>
 </html>

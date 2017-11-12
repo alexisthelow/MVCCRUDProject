@@ -44,10 +44,12 @@ public class PokemonController {
 	@RequestMapping(path = "home.do", method = RequestMethod.GET)
 	public ModelAndView index(@ModelAttribute("activeList") List<Pokemon> activeList, 
 			@ModelAttribute("activePokemon") Pokemon activePokemon,
-			@ModelAttribute("userTeam") List<Pokemon> userTeam) {
+			@ModelAttribute("userTeam") List<Pokemon> userTeam,
+			@ModelAttribute("types") List<String> types) {
 		ModelAndView mv = new ModelAndView("index");
 		mv.addObject("activeList", dao.getAllPokemon());
 		mv.addObject("userTeam", userTeam);
+		mv.addObject("types", types);
 		
 		return mv;
 	}
