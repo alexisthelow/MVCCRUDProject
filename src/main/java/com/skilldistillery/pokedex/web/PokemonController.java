@@ -45,8 +45,8 @@ public class PokemonController {
 		return mv;
 	}
 	
-	@RequestMapping(path = "showOnePokemonDetail.do", method = RequestMethod.GET, params = "id")
-	public ModelAndView showOnePokemonDetail(@RequestParam("id") int id,
+	@RequestMapping(path = "showDetail.do", method = RequestMethod.GET, params = "id")
+	public ModelAndView showDetail(@RequestParam("id") int id,
 			@ModelAttribute("activePokemon") Pokemon pkmn,
 			@ModelAttribute("activeList") List<Pokemon> activeList) {
 		ModelAndView mv = new ModelAndView("details");
