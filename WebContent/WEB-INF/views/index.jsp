@@ -9,23 +9,26 @@
 		<title>Pokedex</title>
 	</head>
 	<body>
-		<c:if test="${not empty activeList}">
-			${activeList[1].name}
-		</c:if>
-		<c:if test="${not empty activePokemon}">
-			${activePokemon.name}
-		</c:if>
-		<c:if test="${not empty userTeam}">
-			<c:forEach var="pokemon" items="${userTeam}">
-				${pokemon.name}
-			</c:forEach>
-		</c:if>
-		<form:form action="showDetail.do" method="get">
+	
+		<form action="showDetail.do" method="get">
+			<select name="id">
+				<option value="0">--Select a Pokemon--</option>
+				<c:forEach var="pokemon" items="${activeList}">
+					<c:if test="${pokemon.id != 0}">
+						<option value="${pokemon.id}">${pokemon.id}: ${pokemon.name}</option>
+					</c:if>
+				</c:forEach>
+			</select>
+		
+			<input type="submit" value="View Details">
+		</form>
+		
+		<%-- <form:form action="showDetail.do" method="get" modelAttribute="modelPokemon">
 			<form:select path="id">
-				<form:option value="NONE" label="--Select a Pokemon--"/>
+				<form:option value="0" label="--Select a Pokemon--"/>
 				<form:options items="${activeList}" />
 			</form:select>
 			<input type="submit" value="View Details">
-		</form:form>
+		</form:form> --%>
 	</body>
 </html>

@@ -14,17 +14,19 @@
 		<ul>
 			<li>Name: ${activePokemon.name}</li>
 			<li>Pokedex ID: ${activePokemon.id }</li>
-			<li>Type: ${activePokemon.type1} <c:if test="${activePokemon.type2 != 0}">/ ${activePokemon.type2}</c:if></li>
+			<li>Type: ${activePokemon.type1} <c:if test="${activePokemon.type2 != 'none'}">/ ${activePokemon.type2}</c:if></li>
 			<li>${activePokemon.description}</li>
 		</ul>
 		<c:if test="${activePokemon.id - 1 != 0}">
-			<form action="showDetail.do?id=${activePokemon.id - 1}" method="get">
+			<form action="showDetail.do" method="get">
 				<input type="submit" value="${activePokemon.id - 1}: ${activeList[activePokemon.id - 1].name}">
+				<input type="hidden" name="id" value="${activePokemon.id - 1}">
 			</form>
 		</c:if>
-		<c:if test="${activePokemon.id + 1 not gt fn:length(activeList)}">
-			<form action="showDetail.do?id=${activePokemon.id + 1}" method="get">
+		<c:if test="${activePokemon.id + 1 le fn:length(activeList)}">
+			<form action="showDetail.do" method="get">
 				<input type="submit" value="${activePokemon.id + 1}: ${activeList[activePokemon.id + 1].name}">
+				<input type="hidden" name="id" value="${activePokemon.id + 1}">
 			</form>
 		</c:if>
 		

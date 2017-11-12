@@ -20,6 +20,11 @@ public class PokemonController {
 	
 	@Autowired
 	private PokemonDAO dao;
+	
+	@ModelAttribute("modelPokemon")
+	public Pokemon initModelPokemon() {
+		return new Pokemon();
+	}
 
 	@ModelAttribute("activePokemon")
 	public Pokemon initActivePokemon() {
@@ -41,17 +46,18 @@ public class PokemonController {
 			@ModelAttribute("activePokemon") Pokemon activePokemon,
 			@ModelAttribute("userTeam") List<Pokemon> userTeam) {
 		ModelAndView mv = new ModelAndView("index");
+		mv.addObject("activeList", dao.getAllPokemon());
+		mv.addObject("userTeam", userTeam);
 		
 		return mv;
 	}
 	
 	@RequestMapping(path = "showDetail.do", method = RequestMethod.GET, params = "id")
 	public ModelAndView showDetail(@RequestParam("id") int id,
-			@ModelAttribute("activePokemon") Pokemon pkmn,
 			@ModelAttribute("activeList") List<Pokemon> activeList) {
 		ModelAndView mv = new ModelAndView("details");
 		mv.addObject("activePokemon", dao.getPokemonById(id));
-		
+		mv.addObject("activeList", activeList);
 		
 		return mv;
 	}
