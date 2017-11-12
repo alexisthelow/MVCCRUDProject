@@ -56,6 +56,15 @@ public class PokemonController {
 		return dao.getAllPokemonOnTeam();
 	}
 	
+	/**
+	 * Shows index view, resets activeList to full list
+	 * @param activeList
+	 * @param activePokemon
+	 * @param userTeam
+	 * @param types
+	 * @return
+	 */
+
 	@RequestMapping(path = "home.do", method = RequestMethod.GET)
 	public ModelAndView index(@ModelAttribute("activeList") List<Pokemon> activeList, 
 			@ModelAttribute("activePokemon") Pokemon activePokemon,
@@ -68,6 +77,14 @@ public class PokemonController {
 		
 		return mv;
 	}
+	
+	/**
+	 * Shows detail view with ID parameter
+	 * @param id
+	 * @param activeList
+	 * @param activeListIndex
+	 * @return
+	 */
 	
 	@RequestMapping(path = "showDetail.do", method = RequestMethod.GET, params = "id")
 	public ModelAndView showDetail(@RequestParam("id") int id,
@@ -87,6 +104,14 @@ public class PokemonController {
 		return mv;
 	}
 	
+	/**
+	 * Shows detail view by single type filter, sets active list to list filtered by type
+	 * @param typeFilter
+	 * @param activeListIndex
+	 * @param activeList
+	 * @return
+	 */
+	
 	@RequestMapping(path = "showDetail.do", method = RequestMethod.GET, params = "typeFilter")
 	public ModelAndView showDetail(@RequestParam("typeFilter") String typeFilter,
 			@ModelAttribute("activeListIndex") Integer activeListIndex,
@@ -101,6 +126,13 @@ public class PokemonController {
 		
 		return mv;
 	}
+	
+	/**
+	 * Shows previous pokemon in active list
+	 * @param activeListIndex
+	 * @param activeList
+	 * @return
+	 */
 	
 	@RequestMapping(path="prev.do", method=RequestMethod.GET)
 	public ModelAndView previousDetail(@ModelAttribute("activeListIndex") Integer activeListIndex,
@@ -125,6 +157,13 @@ public class PokemonController {
 		return mv;
 	}
 	
+	/**
+	 * Shows next pokemon in active list
+	 * @param activeListIndex
+	 * @param activeList
+	 * @return
+	 */
+	
 	@RequestMapping(path="next.do", method=RequestMethod.GET)
 	public ModelAndView nextDetail(@ModelAttribute("activeListIndex") Integer activeListIndex,
 			@ModelAttribute("activeList") List<Pokemon> activeList) {
@@ -133,6 +172,38 @@ public class PokemonController {
 		mv.addObject("activeListIndex", activeListIndex);
 		mv.addObject("activeList", activeList);
 		mv.addObject("activePokemon", activeList.get(activeListIndex));
+		if (activeListIndex > 0) {
+			mv.addObject("previousPokemon", activeList.get(activeListIndex - 1));
+		}
+		else {
+			mv.addObject("previousPokemon", dao.getPokemonById(0));
+		}
+		if (activeListIndex < activeList.size() - 1) {
+			mv.addObject("nextPokemon", activeList.get(activeListIndex + 1));
+		}
+		else {
+			mv.addObject("nextPokemon", dao.getPokemonById(0));
+		}
+		return mv;
+	}
+	
+	/**
+	 * Updates pokemon from detail view, returns to detail view with updated pokemon
+	 * @param activeListIndex
+	 * @param activeList
+	 * @param pokemon
+	 * @return
+	 */
+	
+	@RequestMapping(path="updatePokemon.do", method=RequestMethod.POST)
+	public ModelAndView updatePokemon(@ModelAttribute("activeListIndex") Integer activeListIndex,
+			@ModelAttribute("activeList") List<Pokemon> activeList,
+			Pokemon pokemon) {
+		ModelAndView mv = new ModelAndView("details");
+		dao.updatePokemonInPokedex(pokemon);
+		activeList = dao.getAllPokemon();
+		mv.addObject("activeList", activeList);
+		mv.addObject("activePokemon", dao.getPokemonById(activeListIndex));
 		if (activeListIndex > 0) {
 			mv.addObject("previousPokemon", activeList.get(activeListIndex - 1));
 		}

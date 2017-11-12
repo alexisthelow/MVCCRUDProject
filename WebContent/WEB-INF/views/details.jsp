@@ -36,6 +36,7 @@
 			<form:hidden path="id"/>
 			<input type="submit" value="Update Pokemon">
 		</form:form>
+		<a href="home.do">Return to Index</a>
 		
 		
 	</body>
