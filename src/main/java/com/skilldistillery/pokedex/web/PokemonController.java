@@ -219,6 +219,11 @@ public class PokemonController {
 		return mv;
 	}
 	
-	
+	@RequestMapping(path="add.do", method=RequestMethod.GET)
+	public ModelAndView addNewPokemonToPokedex() {
+		ModelAndView mv = new ModelAndView("add");
+		mv.addObject("modelPokemon", new Pokemon());
+		return mv;
+	}
 	
 }
