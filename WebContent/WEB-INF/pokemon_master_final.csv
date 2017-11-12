@@ -1,5 +1,5 @@
 id,identifier,type_id1,type_id2,evolvesFromID,evolutionChainID,description
-0,missingno,flying,none,0,0,"MissingNO is a programming quirk, and not a real part of the game. When you get this, your game can perform strangely, and the graphics will often become scrambled. The MissingNO Pokémon is most often found after you perform the Fight Safari Zone Pokémon trick."
+0,missingno,flying,none,0,0,MissingNO is a programming quirk&#44; and not a real part of the game. When you get this&#44; your game can perform strangely&#44; and the graphics will often become scrambled. The MissingNO Pokémon is most often found after you perform the Fight Safari Zone Pokémon trick.
 1,bulbasaur,grass,poison,0,1,Bulbasaur can be seen napping in bright sunlight. There is a seed on its back. By soaking up the sun’s rays&#44; the seed grows progressively larger.
 2,ivysaur,grass,poison,1,1,There is a bud on this Pokémon’s back. To support its weight&#44; Ivysaur’s legs and trunk grow thick and strong. If it starts spending more time lying in the sunlight&#44; it’s a sign that the bud will bloom into a large flower soon.
 3,venusaur,grass,poison,2,1,There is a large flower on Venusaur’s back. The flower is said to take on vivid colors if it gets plenty of nutrition and sunlight. The flower’s aroma soothes the emotions of people.
