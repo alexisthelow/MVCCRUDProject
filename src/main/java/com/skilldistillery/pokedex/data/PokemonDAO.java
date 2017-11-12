@@ -14,6 +14,7 @@ public interface PokemonDAO {
 	List<Pokemon> getPokemonBySingleType(String type);	
 	List<Pokemon> getPokemonByBothTypes(String type1, String type2);
 	List<Pokemon> getPokemonByEvolutionChainID(int id);
+	List<String> getTypeList();
 	
 	//update (pokedex)
 	Pokemon updatePokemonInPokedex(Pokemon p);

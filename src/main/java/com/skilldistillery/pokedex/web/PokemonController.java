@@ -15,15 +15,15 @@ import com.skilldistillery.pokedex.data.Pokemon;
 import com.skilldistillery.pokedex.data.PokemonDAO;
 
 @Controller
-@SessionAttributes({"userTeam", "activePokemon", "activeList"})
+@SessionAttributes({"userTeam", "activePokemon", "activeList", "types"})
 public class PokemonController {
 	
 	@Autowired
 	private PokemonDAO dao;
 	
-	@ModelAttribute("modelPokemon")
-	public Pokemon initModelPokemon() {
-		return new Pokemon();
+	@ModelAttribute("types")
+	public List<String> initTypeList() {
+		return dao.getTypeList();
 	}
 
 	@ModelAttribute("activePokemon")

@@ -58,6 +58,10 @@ public class PokemonDAOInMemoryImpl implements PokemonDAO {
 			System.err.println(e);
 		}
 	}
+	
+	public List<String> getTypeList() {
+		return types;
+	}
 
 	@Override
 	public Pokemon addPokemon(Pokemon p) {
