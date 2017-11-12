@@ -17,16 +17,14 @@
 			<li>Type: ${activePokemon.type1} <c:if test="${activePokemon.type2 != 'none'}">/ ${activePokemon.type2}</c:if></li>
 			<li>${activePokemon.description}</li>
 		</ul>
-		<c:if test="${activePokemon.id - 1 != 0}">
-			<form action="showDetail.do" method="get">
-				<input type="submit" value="${activePokemon.id - 1}: ${activeList[activePokemon.id - 1].name}">
-				<input type="hidden" name="id" value="${activePokemon.id - 1}">
+		<c:if test="${previousPokemon.id != 0}">
+			<form action="prev.do" method="get">
+				<input type="submit" value="${previousPokemon.id}: ${previousPokemon.name}">
 			</form>
 		</c:if>
-		<c:if test="${activePokemon.id + 1 le fn:length(activeList)}">
-			<form action="showDetail.do" method="get">
-				<input type="submit" value="${activePokemon.id + 1}: ${activeList[activePokemon.id + 1].name}">
-				<input type="hidden" name="id" value="${activePokemon.id + 1}">
+		<c:if test="${nextPokemon.id != 0}">
+			<form action="next.do" method="get">
+				<input type="submit" value="${nextPokemon.id}: ${nextPokemon.name}">
 			</form>
 		</c:if>
 		

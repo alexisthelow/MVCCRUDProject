@@ -15,7 +15,7 @@ import com.skilldistillery.pokedex.data.Pokemon;
 import com.skilldistillery.pokedex.data.PokemonDAO;
 
 @Controller
-@SessionAttributes({"userTeam", "activePokemon", "activeList", "types", "activeListIndex"})
+@SessionAttributes({"userTeam", "activePokemon", "nextPokemon", "previousPokemon", "activeList", "types", "activeListIndex"})
 public class PokemonController {
 	
 	@Autowired
@@ -33,7 +33,17 @@ public class PokemonController {
 
 	@ModelAttribute("activePokemon")
 	public Pokemon initActivePokemon() {
-		return dao.getPokemonById(1);
+		return dao.getPokemonById(0);
+	}
+	
+	@ModelAttribute("nextPokemon")
+	public Pokemon initNextPokemon() {
+		return dao.getPokemonById(0);
+	}
+	
+	@ModelAttribute("previousPokemon")
+	public Pokemon initPreviousPokemon() {
+		return dao.getPokemonById(0);
 	}
 	
 	@ModelAttribute("activeList")
@@ -66,7 +76,14 @@ public class PokemonController {
 		ModelAndView mv = new ModelAndView("details");
 		mv.addObject("activePokemon", dao.getPokemonById(id));
 		mv.addObject("activeList", activeList);
-		
+		activeListIndex = id;
+		mv.addObject("activeListIndex", activeListIndex);
+		if (activeListIndex > 1) {
+			mv.addObject("previousPokemon", activeList.get(activeListIndex - 1));
+		}
+		if (activeListIndex < activeList.size() - 1) {
+			mv.addObject("nextPokemon", activeList.get(activeListIndex + 1));
+		}
 		return mv;
 	}
 	
@@ -77,8 +94,10 @@ public class PokemonController {
 		ModelAndView mv = new ModelAndView("details");
 		activeList = dao.getPokemonBySingleType(typeFilter);
 		mv.addObject("activeList", activeList);
+		mv.addObject("previousPokemon", dao.getPokemonById(0));
 		mv.addObject("activePokemon", activeList.get(0));
-		mv.addObject("activeListIndex", activeListIndex);
+		mv.addObject("nextPokemon", activeList.get(1));
+		mv.addObject("activeListIndex", 0);
 		
 		return mv;
 	}
@@ -87,9 +106,22 @@ public class PokemonController {
 	public ModelAndView previousDetail(@ModelAttribute("activeListIndex") Integer activeListIndex,
 			@ModelAttribute("activeList") List<Pokemon> activeList) {
 		ModelAndView mv = new ModelAndView("details");
+		activeListIndex = activeListIndex - 1;
+		mv.addObject("activeListIndex", activeListIndex);
 		mv.addObject("activeList", activeList);
-		mv.addObject("activePokemon", activeList.get(activeListIndex - 1));
-		mv.addObject("activeListIndex", activeListIndex - 1);
+		mv.addObject("activePokemon", activeList.get(activeListIndex));
+		if (activeListIndex > 0) {
+			mv.addObject("previousPokemon", activeList.get(activeListIndex - 1));
+		}
+		else {
+			mv.addObject("previousPokemon", dao.getPokemonById(0));
+		}
+		if (activeListIndex < activeList.size() - 1) {
+			mv.addObject("nextPokemon", activeList.get(activeListIndex + 1));
+		}
+		else {
+			mv.addObject("nextPokemon", dao.getPokemonById(0));
+		}
 		return mv;
 	}
 	
@@ -97,9 +129,22 @@ public class PokemonController {
 	public ModelAndView nextDetail(@ModelAttribute("activeListIndex") Integer activeListIndex,
 			@ModelAttribute("activeList") List<Pokemon> activeList) {
 		ModelAndView mv = new ModelAndView("details");
+		activeListIndex = activeListIndex + 1;
+		mv.addObject("activeListIndex", activeListIndex);
 		mv.addObject("activeList", activeList);
-		mv.addObject("activePokemon", activeList.get(activeListIndex + 1));
-		mv.addObject("activeListIndex", activeListIndex + 1);
+		mv.addObject("activePokemon", activeList.get(activeListIndex));
+		if (activeListIndex > 0) {
+			mv.addObject("previousPokemon", activeList.get(activeListIndex - 1));
+		}
+		else {
+			mv.addObject("previousPokemon", dao.getPokemonById(0));
+		}
+		if (activeListIndex < activeList.size() - 1) {
+			mv.addObject("nextPokemon", activeList.get(activeListIndex + 1));
+		}
+		else {
+			mv.addObject("nextPokemon", dao.getPokemonById(0));
+		}
 		return mv;
 	}
 	
