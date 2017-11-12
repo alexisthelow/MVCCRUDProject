@@ -83,6 +83,25 @@ public class PokemonController {
 		return mv;
 	}
 	
+	@RequestMapping(path="prev.do", method=RequestMethod.GET)
+	public ModelAndView previousDetail(@ModelAttribute("activeListIndex") Integer activeListIndex,
+			@ModelAttribute("activeList") List<Pokemon> activeList) {
+		ModelAndView mv = new ModelAndView("details");
+		mv.addObject("activeList", activeList);
+		mv.addObject("activePokemon", activeList.get(activeListIndex - 1));
+		mv.addObject("activeListIndex", activeListIndex - 1);
+		return mv;
+	}
+	
+	@RequestMapping(path="next.do", method=RequestMethod.GET)
+	public ModelAndView nextDetail(@ModelAttribute("activeListIndex") Integer activeListIndex,
+			@ModelAttribute("activeList") List<Pokemon> activeList) {
+		ModelAndView mv = new ModelAndView("details");
+		mv.addObject("activeList", activeList);
+		mv.addObject("activePokemon", activeList.get(activeListIndex + 1));
+		mv.addObject("activeListIndex", activeListIndex + 1);
+		return mv;
+	}
 	
 	
 	
