@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.skilldistillery.pokedex.data.Pokemon;
 import com.skilldistillery.pokedex.data.PokemonDAO;
@@ -219,10 +220,49 @@ public class PokemonController {
 		return mv;
 	}
 	
+	/**
+	 * Shows add view with blank model pokemon
+	 * @return
+	 */
+	
 	@RequestMapping(path="add.do", method=RequestMethod.GET)
 	public ModelAndView addNewPokemonToPokedex() {
 		ModelAndView mv = new ModelAndView("add");
 		mv.addObject("modelPokemon", new Pokemon());
+		return mv;
+	}
+	
+	/**
+	 * adds newly created pokemon to pokedex, sends to detail view
+	 * @param p
+	 * @return
+	 */
+	
+	@RequestMapping(path = "processAdd.do", method = RequestMethod.POST)
+	public ModelAndView processAddForm(Pokemon p, RedirectAttributes redir) {
+		ModelAndView mv = new ModelAndView("redirect:showAddedDetail.do");
+		p = dao.addPokemon(p);
+		redir.addFlashAttribute("activePokemon", p);
+		return mv;
+	}
+	
+	@RequestMapping(path = "showAddedDetail.do", method = RequestMethod.GET)
+	public ModelAndView showAddedDetail(@ModelAttribute("activePokemon") Pokemon activePokemon,
+			@ModelAttribute("activeListIndex") Integer activeListIndex,
+			@ModelAttribute("activeList") List<Pokemon> activeList) {
+		ModelAndView mv = new ModelAndView("details");
+		activeList = dao.getAllPokemon();
+		mv.addObject("activePokemon", activePokemon);
+		mv.addObject("activeList", activeList);
+		activeListIndex = activePokemon.getId();
+		mv.addObject("activeListIndex", activeListIndex);
+		if (activeListIndex > 1) {
+			mv.addObject("previousPokemon", activeList.get(activeListIndex - 1));
+		}
+		if (activeListIndex < activeList.size() - 1) {
+			mv.addObject("nextPokemon", activeList.get(activeListIndex + 1));
+		}
+		
 		return mv;
 	}
 	
