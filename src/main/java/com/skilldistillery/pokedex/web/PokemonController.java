@@ -233,7 +233,7 @@ public class PokemonController {
 	}
 	
 	/**
-	 * adds newly created pokemon to pokedex, sends to detail view
+	 * adds newly created pokemon to pokedex, redirects to detail view
 	 * @param p
 	 * @return
 	 */
@@ -245,6 +245,14 @@ public class PokemonController {
 		redir.addFlashAttribute("activePokemon", p);
 		return mv;
 	}
+	
+	/**
+	 * Redirect mapping for processAdd.do
+	 * @param activePokemon
+	 * @param activeListIndex
+	 * @param activeList
+	 * @return
+	 */
 	
 	@RequestMapping(path = "showAddedDetail.do", method = RequestMethod.GET)
 	public ModelAndView showAddedDetail(@ModelAttribute("activePokemon") Pokemon activePokemon,
