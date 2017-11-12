@@ -94,13 +94,19 @@ public class PokemonController {
 		ModelAndView mv = new ModelAndView("details");
 		mv.addObject("activePokemon", dao.getPokemonById(id));
 		mv.addObject("activeList", activeList);
-		activeListIndex = id;
+		activeListIndex = activeList.indexOf(dao.getPokemonById(id));
 		mv.addObject("activeListIndex", activeListIndex);
 		if (activeListIndex > 1) {
 			mv.addObject("previousPokemon", activeList.get(activeListIndex - 1));
 		}
+		else {
+			mv.addObject("previousPokemon", dao.getPokemonById(0));
+		}
 		if (activeListIndex < activeList.size() - 1) {
 			mv.addObject("nextPokemon", activeList.get(activeListIndex + 1));
+		}
+		else {
+			mv.addObject("nextPokemon", dao.getPokemonById(0));
 		}
 		return mv;
 	}
@@ -262,15 +268,60 @@ public class PokemonController {
 		activeList = dao.getAllPokemon();
 		mv.addObject("activePokemon", activePokemon);
 		mv.addObject("activeList", activeList);
-		activeListIndex = activePokemon.getId();
+		activeListIndex = activeList.indexOf(activePokemon);
 		mv.addObject("activeListIndex", activeListIndex);
 		if (activeListIndex > 1) {
 			mv.addObject("previousPokemon", activeList.get(activeListIndex - 1));
 		}
+		else {
+			mv.addObject("previousPokemon", dao.getPokemonById(0));
+		}
 		if (activeListIndex < activeList.size() - 1) {
 			mv.addObject("nextPokemon", activeList.get(activeListIndex + 1));
 		}
+		else {
+			mv.addObject("nextPokemon", dao.getPokemonById(0));
+		}
 		
+		return mv;
+	}
+	
+	/**
+	 * deletes pokemon from detail view, returns to previous or next in detail view
+	 * @return
+	 */
+	
+	@RequestMapping(path = "delete.do", method=RequestMethod.GET)
+	public ModelAndView deleteFromPokedex(@ModelAttribute("activePokemon") Pokemon activePokemon,
+			@ModelAttribute("previousPokemon") Pokemon previousPokemon,
+			@ModelAttribute("nextPokemon") Pokemon nextPokemon,
+			@ModelAttribute("activeList") List<Pokemon> activeList,
+			@ModelAttribute("activeListIndex") Integer activeListIndex) {
+		ModelAndView mv = new ModelAndView("details");
+		dao.deletePokemonFromPokedex(activePokemon);
+		activeList.remove(activePokemon);
+		mv.addObject("activeList", activeList);
+		if (previousPokemon.getId() != 0) {
+			activePokemon = previousPokemon;
+		}
+		else {
+			activePokemon = nextPokemon;
+		}
+		activeListIndex = activeList.indexOf(activePokemon);
+		mv.addObject("activeListIndex", activeListIndex);
+		mv.addObject("activePokemon", activePokemon);
+		if (activeListIndex > 0) {
+			mv.addObject("previousPokemon", activeList.get(activeListIndex - 1));
+		}
+		else {
+			mv.addObject("previousPokemon", dao.getPokemonById(0));
+		}
+		if (activeListIndex < activeList.size() - 1) {
+			mv.addObject("nextPokemon", activeList.get(activeListIndex + 1));
+		}
+		else {
+			mv.addObject("nextPokemon", dao.getPokemonById(0));
+		}
 		return mv;
 	}
 	
