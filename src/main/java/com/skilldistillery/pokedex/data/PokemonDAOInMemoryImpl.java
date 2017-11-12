@@ -104,6 +104,7 @@ public class PokemonDAOInMemoryImpl implements PokemonDAO {
 				returnList.add(p);
 			}
 		}
+		Collections.sort(returnList, (p1, p2) -> p1.getId() < p2.getId() ? -1 : 1);
 		return returnList;
 	}
 
@@ -115,7 +116,7 @@ public class PokemonDAOInMemoryImpl implements PokemonDAO {
 				returnList.add(p);
 			}
 		}
-		
+		Collections.sort(returnList, (p1, p2) -> p1.getId() < p2.getId() ? -1 : 1);
 		return returnList;
 	}
 
@@ -127,6 +128,7 @@ public class PokemonDAOInMemoryImpl implements PokemonDAO {
 				returnList.add(p);
 			}
 		}
+		Collections.sort(returnList, (p1, p2) -> p1.getId() < p2.getId() ? -1 : 1);
 		return returnList;
 	}
 
