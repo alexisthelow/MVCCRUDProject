@@ -119,13 +119,22 @@ public class PokemonController {
 	 * @return
 	 */
 	
-	@RequestMapping(path = "showDetail.do", method = RequestMethod.GET, params = "typeFilter1")
+	@RequestMapping(path = "showDetail.do", method = RequestMethod.GET, params = {"typeFilter1", "typeFilter2"})
 	public ModelAndView showDetail(@RequestParam("typeFilter1") String typeFilter1,
 			@RequestParam("typeFilter2") String typeFilter2,
 			@ModelAttribute("activeListIndex") Integer activeListIndex,
 			@ModelAttribute("activeList") List<Pokemon> activeList) {
 		ModelAndView mv = new ModelAndView("details");
-		if (typeFilter2.equals("none")) {
+		if (typeFilter1.equals("none") && typeFilter2.equals("none")) {
+			activeList = dao.getAllPokemon();
+			mv.addObject("activeList", activeList);
+			mv.addObject("previousPokemon", dao.getPokemonById(0));
+			mv.addObject("activePokemon", activeList.get(1));
+			mv.addObject("nextPokemon", activeList.get(2));
+			mv.addObject("activeListIndex", 1);
+			return mv;
+		}
+		else if (typeFilter2.equals("none")) {
 			activeList = dao.getPokemonBySingleType(typeFilter1);
 		}
 		else {
@@ -146,7 +155,6 @@ public class PokemonController {
 			mv.addObject("nextPokemon", dao.getPokemonById(0));
 		}
 		mv.addObject("activeListIndex", 0);
-		
 		return mv;
 	}
 	
