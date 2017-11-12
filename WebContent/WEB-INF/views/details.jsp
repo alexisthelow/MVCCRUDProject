@@ -27,20 +27,24 @@
 				<input type="submit" value="${nextPokemon.id}: ${nextPokemon.name}">
 			</form>
 		</c:if>
-		Update Pokemon:
-		<form:form action="updatePokemon.do" method="post" modelAttribute="activePokemon">
-			Name: <form:input path="name"/><form:errors path="name"/><br>
-			Type 1: <form:input path="type1" />
-			Type 2: <form:input path="type2" />
-			Description: <form:input path="description"/>
-			<form:hidden path="id"/>
-			<input type="submit" value="Update Pokemon">
-		</form:form>
-		Delete this Pokemon:
-		<form action="delete.do">
-			<input type="submit" value="Delete ${activePokemon.name}">
-		
-		</form>
+		<c:if test="${activePokemon.id != 0}">
+			Update Pokemon:
+			<form:form action="updatePokemon.do" method="post" modelAttribute="activePokemon">
+				Name: <form:input path="name"/><form:errors path="name"/><br>
+				Type 1: <form:input path="type1" />
+				Type 2: <form:input path="type2" />
+				Description: <form:input path="description"/>
+				<form:hidden path="id"/>
+				<input type="submit" value="Update Pokemon">
+			</form:form>
+		</c:if>
+		<c:if test="${activePokemon.id != 0}">
+			Delete this Pokemon:
+			<form action="delete.do">
+				<input type="submit" value="Delete ${activePokemon.name}">
+			
+			</form>
+		</c:if>
 		<a href="home.do">Return to Index</a>
 		
 		
