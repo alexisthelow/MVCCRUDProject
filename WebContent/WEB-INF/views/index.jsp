@@ -23,12 +23,5 @@
 			<input type="submit" value="View Details">
 		</form>
 		
-		<%-- <form:form action="showDetail.do" method="get" modelAttribute="modelPokemon">
-			<form:select path="id">
-				<form:option value="0" label="--Select a Pokemon--"/>
-				<form:options items="${activeList}" />
-			</form:select>
-			<input type="submit" value="View Details">
-		</form:form> --%>
 	</body>
 </html>

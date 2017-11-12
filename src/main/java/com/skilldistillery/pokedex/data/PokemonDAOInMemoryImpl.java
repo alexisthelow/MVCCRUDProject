@@ -22,7 +22,9 @@ public class PokemonDAOInMemoryImpl implements PokemonDAO {
 	
 	private Map<Integer, Pokemon> pokedex = new HashMap<>();
 	private List<Pokemon> userTeam = new ArrayList<>();
-	private static final String FILE_NAME = "/WEB-INF/pokemon_master_final.csv";
+	private List<String> types = new ArrayList<>();
+	private static final String POKEMON_FILE_NAME = "/WEB-INF/pokemon_master_final.csv";
+	private static final String TYPES_FILE_NAME = "/WEB-INF/types.csv";
 	private static int currentID = 0;
 	
 	@Autowired
@@ -30,7 +32,7 @@ public class PokemonDAOInMemoryImpl implements PokemonDAO {
 	
 	@PostConstruct
 	public void init() {
-		try (InputStream is = wac.getServletContext().getResourceAsStream(FILE_NAME); BufferedReader buf = new BufferedReader(new InputStreamReader(is));) {
+		try (InputStream is = wac.getServletContext().getResourceAsStream(POKEMON_FILE_NAME); BufferedReader buf = new BufferedReader(new InputStreamReader(is));) {
 			String line = buf.readLine();		//discard first line
 			while ((line = buf.readLine()) != null) {
 				String[] tokens = line.split(",");
@@ -43,6 +45,14 @@ public class PokemonDAOInMemoryImpl implements PokemonDAO {
 				int evolutionChainID = Integer.parseInt(tokens[5]);
 				String description = tokens[6];
 				pokedex.put(id, new Pokemon(id, name, type1, type2, evolutionStageInChain, evolutionChainID, description));
+			}
+		} catch (Exception e) {
+			System.err.println(e);
+		}
+		try (InputStream is = wac.getServletContext().getResourceAsStream(TYPES_FILE_NAME); BufferedReader buf = new BufferedReader(new InputStreamReader(is));) {
+			String line = buf.readLine();		//discard first line
+			while ((line = buf.readLine()) != null) {
+				types.add(line);
 			}
 		} catch (Exception e) {
 			System.err.println(e);
