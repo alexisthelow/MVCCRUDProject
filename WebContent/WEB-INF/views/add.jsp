@@ -15,7 +15,7 @@
 			Description: <form:input path="description" />
 			<input type="hidden" value="id" />
 
-			<input type="submit" value="ad ur giraaf">
+			<input type="submit" value="Add to Pokedex">
 		</form:form>
 	</body>
 </html>
