@@ -36,6 +36,14 @@
 			<form:hidden path="id"/>
 			<input type="submit" value="Update Pokemon">
 		</form:form>
+		Delete this Pokemon:
+		<form action="delete.do">
+			<input type="hidden" name="id" value="${activePokemon.id}">
+			<input type="hidden" name="previousPokemon" value="${previousPokemon}">
+			<input type="hidden" name="nextPokemon" value="${nextPokemon}">
+			<input type="submit" value="Delete ${activePokemon.name}">
+		
+		</form>
 		<a href="home.do">Return to Index</a>
 		
 		
