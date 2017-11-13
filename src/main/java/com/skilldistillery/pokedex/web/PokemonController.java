@@ -75,7 +75,7 @@ public class PokemonController {
 		mv.addObject("activeList", dao.getAllPokemon());
 		mv.addObject("userTeam", userTeam);
 		mv.addObject("types", types);
-		
+		mv.addObject("modelPokemon", new Pokemon());
 		return mv;
 	}
 	
