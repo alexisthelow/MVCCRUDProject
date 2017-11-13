@@ -233,8 +233,9 @@ public class PokemonController {
 		ModelAndView mv = new ModelAndView("details");
 		dao.updatePokemonInPokedex(pokemon);
 		activeList = dao.getAllPokemon();
+		activeListIndex = activeList.indexOf(pokemon);
 		mv.addObject("activeList", activeList);
-		mv.addObject("activePokemon", dao.getPokemonById(activeListIndex));
+		mv.addObject("activePokemon", dao.getPokemonById(pokemon.getId()));
 		if (activeListIndex > 0) {
 			mv.addObject("previousPokemon", activeList.get(activeListIndex - 1));
 		}
