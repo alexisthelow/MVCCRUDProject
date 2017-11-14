@@ -89,12 +89,23 @@ public class PokemonController {
 	
 	@RequestMapping(path = "showDetail.do", method = RequestMethod.GET, params = "id")
 	public ModelAndView showDetail(@RequestParam("id") int id,
+			@RequestParam("pokemonName") String pokemonNameSearch,
 			@ModelAttribute("activeList") List<Pokemon> activeList,
 			@ModelAttribute("activeListIndex") Integer activeListIndex) {
 		ModelAndView mv = new ModelAndView("details");
-		mv.addObject("activePokemon", dao.getPokemonById(id));
+		Pokemon activePokemon;
+		if (pokemonNameSearch != null && !pokemonNameSearch.isEmpty() && dao.getPokemonByName(pokemonNameSearch) != null && dao.getPokemonByName(pokemonNameSearch).getId() != 0) {		//user typed something in the name field, so check that first. null? empty? has something in it?
+			activePokemon = dao.getPokemonByName(pokemonNameSearch);
+		}
+		else if (id != 0 && dao.getPokemonById(id) != null) {		//name field didn't work, so is there something in id?
+			activePokemon = dao.getPokemonById(id);
+		}
+		else {
+			activePokemon = activeList.get(1);
+		}
+		mv.addObject("activePokemon", activePokemon);
 		mv.addObject("activeList", activeList);
-		activeListIndex = activeList.indexOf(dao.getPokemonById(id));
+		activeListIndex = activeList.indexOf(activePokemon);
 		mv.addObject("activeListIndex", activeListIndex);
 		if (activeListIndex > 1) {
 			mv.addObject("previousPokemon", activeList.get(activeListIndex - 1));

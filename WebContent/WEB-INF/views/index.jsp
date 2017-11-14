@@ -13,10 +13,10 @@
 	<body class="h-100">
 		<div class="container h-100">
 			<div class="row h-100 align-items-center">
-				<div class="col h-75">
+				<div class="col h-50 ">
 					<div class="card h-100 justify-content-center">
-						<h3 class="text-center">Display Pokemon by Pokedex ID</h3>
-						<ul class="list-group text-center">
+						<h3 class="text-center p-3">Pokemon by ID / Name</h3>
+						<ul class="list-group text-center p-3">
 							<form action="showDetail.do" method="get">
 								<li class="list-group-item text-center">
 									<select name="id">
@@ -29,16 +29,19 @@
 									</select>
 								</li>
 								<li class="list-group-item text-center">
+									<input type="text" name="pokemonName" value="Pokemon Name">
+								</li>
+								<li class="list-group-item text-center">
 									<input type="submit" value="View Details">
 								</li>
 							</form>
 						</ul>
 					</div>
 				</div>
-				<div class="col h-75">
+				<div class="col h-50">
 					<div class="card h-100 justify-content-center">
-						<h3 class="text-center">Filter Pokemon by Type</h3>
-						<ul class="list-group text-center">
+						<h3 class="text-center p-3">Filter Pokemon by Type</h3>
+						<ul class="list-group text-center p-3">
 							<form action="showDetail.do" method="get">
 								<li class="list-group-item text-center">
 									<select name="typeFilter1">
@@ -65,10 +68,16 @@
 						</ul>
 					</div>
 				</div>
-				<div class="col h-75">
-					<div class="card h-100 justify-content-center">
-						<h3 class="text-center">Add A Pokemon to the Pokedex</h3>
-						<ul class="list-group text-center">
+				<div class="col h-50">
+					<div class="card h-100 justify-content-center"> <!--TODO this really should be a popup or something -->
+						<h3 class="text-center p-3">Add to the Pokedex</h3>
+						<ul class="list-group text-center p-3">
+							<li class="list-group-item text-center">Stuff</li>
+							<li class="list-group-item text-center">Stuff</li>
+							<li class="list-group-item text-center">Stuff</li>
+						
+						</ul>
+						<%-- <ul class="list-group text-center">
 							<form:form action="processAdd.do" method="post" modelAttribute="modelPokemon">
 								<li class="list-group-item text-center">
 									Name: <form:input path="name" /><form:errors path="name" /><br>
@@ -87,7 +96,7 @@
 									<input type="submit" value="Add to Pokedex">
 								</li>
 							</form:form>
-						</ul>
+						</ul> --%>
 					</div>
 				</div>
 			</div>
