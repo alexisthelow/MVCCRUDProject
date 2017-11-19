@@ -33,12 +33,12 @@ ENGINE = InnoDB
 AUTO_INCREMENT = 0;
 
 SET SQL_MODE = '';
-GRANT USAGE ON *.* TO pokemon@localhost;
- DROP USER pokemon@localhost;
+GRANT USAGE ON *.* TO pokedex@localhost;
+ DROP USER pokedex@localhost;
 SET SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
-CREATE USER 'pokemon'@'localhost' IDENTIFIED BY 'pokemon';
+CREATE USER 'pokedex'@'localhost' IDENTIFIED BY 'pokedex';
 
-GRANT SELECT, INSERT, TRIGGER, UPDATE, DELETE ON TABLE * TO 'pokemon'@'localhost';
+GRANT SELECT, INSERT, TRIGGER, UPDATE, DELETE ON TABLE * TO 'pokedex'@'localhost';
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

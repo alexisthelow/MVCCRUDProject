@@ -358,9 +358,13 @@ public class PokemonDAODBImpl implements PokemonDAO {
 		try {
 			Connection conn = DriverManager.getConnection(url, user, pass);
 			conn.setAutoCommit(false);
-			String sql = "UPDATE pokemon SET name, type1, type2, description WHERE id = ?";
+			String sql = "UPDATE pokemon SET name = ?, type1 = ?, type2 = ?, description = ? WHERE id = ?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
-			stmt.setInt(1, p.getId());
+			stmt.setString(1, p.getName());
+			stmt.setString(2, p.getType1().getTypeName());
+			stmt.setString(3, p.getType2().getTypeName());
+			stmt.setString(4, p.getDescription());
+			stmt.setInt(5, p.getId());
 			stmt.executeUpdate();
 			pokemonUpdated = p;
 			conn.commit();
