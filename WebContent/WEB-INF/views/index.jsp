@@ -47,18 +47,16 @@
 									<select name="typeFilter1">
 										<option value="none">--Type 1--</option>
 										<c:forEach var="type" items="${types}">
-											<option value="${type}">${type}</option>
+											<option value="${type}">${type.typeName}</option>
 										</c:forEach>
-										<option value="none">None</option>
 									</select> 
 								</li>
 								<li class="list-group-item text-center">
 									<select name="typeFilter2">
 										<option value="none">--Type 2--</option>
 										<c:forEach var="type" items="${types}">
-											<option value="${type}">${type}</option>
+											<option value="${type}">${type.typeName}</option>
 										</c:forEach>
-										<option value="none">None</option>
 									</select> 
 								</li>
 								<li class="list-group-item text-center">
@@ -72,12 +70,30 @@
 					<div class="card h-100 justify-content-center"> <!--TODO this really should be a popup or something -->
 						<h3 class="text-center p-3">Add to the Pokedex</h3>
 						<ul class="list-group text-center p-3">
-							<li class="list-group-item text-center">Stuff</li>
-							<li class="list-group-item text-center">Stuff</li>
-							<li class="list-group-item text-center">Stuff</li>
-						
+							<!-- Button trigger modal -->
+							<li class="list-group-item">
+								<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+							  		Add A Pokemon
+								</button>			
+							</li>			
 						</ul>
-						<%-- <ul class="list-group text-center">
+						
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Modal -->
+		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+		        			<h5 class="modal-title" id="exampleModalLabel">Add to Pokedex</h5>
+		        			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          			<span aria-hidden="true">&times;</span>
+		        			</button>
+		      		</div>
+			      	<div class="modal-body">
+						<ul class="list-group text-center">
 							<form:form action="processAdd.do" method="post" modelAttribute="modelPokemon">
 								<li class="list-group-item text-center">
 									Name: <form:input path="name" /><form:errors path="name" /><br>
@@ -92,14 +108,16 @@
 									Description: <form:textarea class="form-control" path="description" /><br>
 								</li>
 								<input type="hidden" value="id" />
-								<li class="list-group-item text-center">
-									<input type="submit" value="Add to Pokedex">
-								</li>
+						</ul>
+			      	</div>
+			      	<div class="modal-footer">
+			        		<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+						<input type="submit" value="Add to Pokedex">
+						
 							</form:form>
-						</ul> --%>
-					</div>
-				</div>
-			</div>
+			      	</div>
+		    		</div>
+		  	</div>
 		</div>
 		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 		<script	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>

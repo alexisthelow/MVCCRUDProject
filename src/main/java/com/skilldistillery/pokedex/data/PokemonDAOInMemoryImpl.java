@@ -16,15 +16,14 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.context.WebApplicationContext;
 
-@Repository
-@Primary
+
 public class PokemonDAOInMemoryImpl implements PokemonDAO {
 	
 	private Map<Integer, Pokemon> pokedex = new HashMap<>();
 	private List<Pokemon> userTeam = new ArrayList<>();
-	private List<String> types = new ArrayList<>();
+//	private List<String> types = new ArrayList<>();
 	private static final String POKEMON_FILE_NAME = "/WEB-INF/pokemon_master_final.csv";
-	private static final String TYPES_FILE_NAME = "/WEB-INF/types.csv";
+//	private static final String TYPES_FILE_NAME = "/WEB-INF/types.csv";
 	private static int currentID = 0;
 	
 	@Autowired
@@ -39,30 +38,28 @@ public class PokemonDAOInMemoryImpl implements PokemonDAO {
 				int id = Integer.parseInt(tokens[0]);
 				PokemonDAOInMemoryImpl.currentID = id + 1;	//keep track of id for user adding
 				String name = tokens[1];
-				String type1 = tokens[2];
-				String type2 = tokens[3];
+				String capitalizedName = Character.toUpperCase(name.charAt(0)) + name.substring(1);
+				String typeString1 = tokens[2];
+				String typeString2 = tokens[3];
+				Type type1 = null, type2 = null;
+				for (Type t : Type.values()) {
+					if (t.getTypeName().equalsIgnoreCase(typeString1)) {
+						type1 = t;
+					}
+					if (t.getTypeName().equalsIgnoreCase(typeString2)) {
+						type2 = t;
+					}
+				}
 				int evolutionStageInChain = Integer.parseInt(tokens[4]);
 				int evolutionChainID = Integer.parseInt(tokens[5]);
 				String description = tokens[6];
-				pokedex.put(id, new Pokemon(id, name, type1, type2, evolutionStageInChain, evolutionChainID, description));
-			}
-		} catch (Exception e) {
-			System.err.println(e);
-		}
-		try (InputStream is = wac.getServletContext().getResourceAsStream(TYPES_FILE_NAME); BufferedReader buf = new BufferedReader(new InputStreamReader(is));) {
-			String line = buf.readLine();		//discard first line
-			while ((line = buf.readLine()) != null) {
-				types.add(line);
+				pokedex.put(id, new Pokemon(id, capitalizedName, type1, type2, evolutionStageInChain, evolutionChainID, description));
 			}
 		} catch (Exception e) {
 			System.err.println(e);
 		}
 	}
 	
-	public List<String> getTypeList() {
-		return types;
-	}
-
 	@Override
 	public Pokemon addPokemon(Pokemon p) {
 		p.setId(currentID++);
@@ -100,7 +97,7 @@ public class PokemonDAOInMemoryImpl implements PokemonDAO {
 	public List<Pokemon> getPokemonBySingleType(String type) {
 		List<Pokemon> returnList = new ArrayList<>();
 		for (Pokemon p : pokedex.values()) {
-			if (p.getType1().equalsIgnoreCase(type) || p.getType2().equalsIgnoreCase(type)) {
+			if (p.getType1().getTypeName().equalsIgnoreCase(type) || p.getType2().getTypeName().equalsIgnoreCase(type)) {
 				returnList.add(p);
 			}
 		}
@@ -112,7 +109,7 @@ public class PokemonDAOInMemoryImpl implements PokemonDAO {
 	public List<Pokemon> getPokemonByBothTypes(String type1, String type2) {
 		List<Pokemon> returnList = new ArrayList<>();
 		for (Pokemon p : pokedex.values()) {
-			if ((p.getType1().equalsIgnoreCase(type1) && p.getType2().equalsIgnoreCase(type2)) || (p.getType1().equalsIgnoreCase(type2) && p.getType2().equalsIgnoreCase(type1))) {
+			if ((p.getType1().getTypeName().equalsIgnoreCase(type1) && p.getType2().getTypeName().equalsIgnoreCase(type2)) || (p.getType1().getTypeName().equalsIgnoreCase(type2) && p.getType2().getTypeName().equalsIgnoreCase(type1))) {
 				returnList.add(p);
 			}
 		}

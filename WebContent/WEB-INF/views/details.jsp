@@ -15,10 +15,10 @@
 		<div class="container h-100">
 			<div class="row w-75 mx-auto">
 				<!-- put image here --><br>
-				<ul class="list-group">
-					<li class="list-group-item text-center text-capitalize">${activePokemon.name}</li>
+				<ul class="list-group w-100">
+					<li class="list-group-item text-center">${activePokemon.name}</li>
 					<li class="list-group-item text-center">ID: ${activePokemon.id }</li>
-					<li class="list-group-item text-center text-capitalize">${activePokemon.type1} <c:if test="${activePokemon.type2 != 'none'}">/ ${activePokemon.type2}</c:if></li>
+					<li class="list-group-item text-center">${activePokemon.type1.typeName} <c:if test="${activePokemon.type2.typeName != 'none'}">/ ${activePokemon.type2.typeName}</c:if></li>
 					<li class="list-group-item text-center">${activePokemon.description}</li>
 				</ul>
 			</div>
@@ -26,14 +26,14 @@
 				<div class="col float-left">
 					<c:if test="${previousPokemon.id != 0}">
 						<form class="float-left" action="prev.do" method="get">
-							<input class="btn text-capitalize" type="submit" value="Previous: #${previousPokemon.id} ${previousPokemon.name}">
+							<input class="btn" type="submit" value="Previous: #${previousPokemon.id} ${previousPokemon.name}">
 						</form>
 					</c:if>
 				</div>
 				<div class="col float-left">
 					<c:if test="${nextPokemon.id != 0}">
 						<form class="float-right" action="next.do" method="get">
-							<input class="btn text-capitalize" type="submit" value="Next: #${nextPokemon.id} ${nextPokemon.name}">
+							<input class="btn" type="submit" value="Next: #${nextPokemon.id} ${nextPokemon.name}">
 						</form>
 					</c:if>
 				</div>
@@ -44,14 +44,16 @@
 							<form:form action="updatePokemon.do" method="post" modelAttribute="activePokemon">
 								<form:hidden path="id" />
 								<li class="list-group-item text-center">Update Pokemon:</li>
-								<li class="list-group-item text-center text-capitalize">Name: <form:input class="text-capitalize" path="name" /></li>
-								<li class="list-group-item text-center text-capitalize">Type 1: <form:input class="text-capitalize" path="type1" /></li>
-								<li class="list-group-item text-center text-capitalize">Type 2: <form:input class="text-capitalize" path="type2" /></li>
-								<li class="list-group-item text-center">Description: <form:textarea path="description" /></li>
-								<li class="list-group-item text-center text-capitalize">
-									<input class="btn text-capitalize" type="submit" value="Update ${activePokemon.name}">
+								<li class="list-group-item d-flex text-center justify-content-around align-items-center">
+									<span class="p-1">Name: <form:input path="name" /></span>
+									<span class="p-1">Type 1: <form:select items="${types}" value="${activePokemon.type1}" itemLabel="typeName" path="type1"/></span>
+									<span class="p-1">Type 2: <form:select items="${types}" value="${activePokemon.type2}" itemLabel="typeName" path="type2"/></span>
+								</li>
+								<li class="list-group-item text-center">Description: <form:textarea class="form-control" path="description" /></li>
+								<li class="list-group-item text-center">
+									<input class="btn" type="submit" value="Update ${activePokemon.name}">
 									<c:if test="${activePokemon.id != 0}">
-										<a href="delete.do" type="button" class="btn text-capitalize">Delete ${activePokemon.name}</a>
+										<a href="delete.do" type="button" class="btn">Delete ${activePokemon.name}</a>
 									</c:if>
 								</li>
 							</form:form>

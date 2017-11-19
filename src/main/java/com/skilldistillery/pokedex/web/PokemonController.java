@@ -1,5 +1,6 @@
 package com.skilldistillery.pokedex.web;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,17 +15,18 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.skilldistillery.pokedex.data.Pokemon;
 import com.skilldistillery.pokedex.data.PokemonDAO;
+import com.skilldistillery.pokedex.data.Type;
 
 @Controller
-@SessionAttributes({"userTeam", "activePokemon", "nextPokemon", "previousPokemon", "activeList", "types", "activeListIndex"})
+@SessionAttributes({/*"userTeam", */"activePokemon", "nextPokemon", "previousPokemon", "activeList", "types", "activeListIndex"})
 public class PokemonController {
 	
 	@Autowired
 	private PokemonDAO dao;
 	
 	@ModelAttribute("types")
-	public List<String> initTypeList() {
-		return dao.getTypeList();
+	public Type[] initTypeList() {
+		return Type.values();
 	}
 	
 	@ModelAttribute("activeListIndex")
@@ -52,10 +54,10 @@ public class PokemonController {
 		return dao.getAllPokemon();
 	}
 	
-	@ModelAttribute("userTeam")
-	public List<Pokemon> initUserTeam() {
-		return dao.getAllPokemonOnTeam();
-	}
+//	@ModelAttribute("userTeam")
+//	public List<Pokemon> initUserTeam() {
+//		return dao.getAllPokemonOnTeam();
+//	}
 	
 	/**
 	 * Shows index view, resets activeList to full list
@@ -69,11 +71,11 @@ public class PokemonController {
 	@RequestMapping(path = "home.do", method = RequestMethod.GET)
 	public ModelAndView index(@ModelAttribute("activeList") List<Pokemon> activeList, 
 			@ModelAttribute("activePokemon") Pokemon activePokemon,
-			@ModelAttribute("userTeam") List<Pokemon> userTeam,
-			@ModelAttribute("types") List<String> types) {
+//			@ModelAttribute("userTeam") List<Pokemon> userTeam,
+			@ModelAttribute("types") Type[] types) {
 		ModelAndView mv = new ModelAndView("index");
 		mv.addObject("activeList", dao.getAllPokemon());
-		mv.addObject("userTeam", userTeam);
+//		mv.addObject("userTeam", userTeam);
 		mv.addObject("types", types);
 		mv.addObject("modelPokemon", new Pokemon());
 		return mv;
@@ -91,8 +93,10 @@ public class PokemonController {
 	public ModelAndView showDetail(@RequestParam("id") int id,
 			@RequestParam("pokemonName") String pokemonNameSearch,
 			@ModelAttribute("activeList") List<Pokemon> activeList,
-			@ModelAttribute("activeListIndex") Integer activeListIndex) {
+			@ModelAttribute("activeListIndex") Integer activeListIndex,
+			@ModelAttribute("types") Type[] types) {
 		ModelAndView mv = new ModelAndView("details");
+		mv.addObject("types", types);
 		Pokemon activePokemon;
 		if (pokemonNameSearch != null && !pokemonNameSearch.isEmpty() && dao.getPokemonByName(pokemonNameSearch) != null && dao.getPokemonByName(pokemonNameSearch).getId() != 0) {		//user typed something in the name field, so check that first. null? empty? has something in it?
 			activePokemon = dao.getPokemonByName(pokemonNameSearch);
@@ -134,8 +138,12 @@ public class PokemonController {
 	public ModelAndView showDetail(@RequestParam("typeFilter1") String typeFilter1,
 			@RequestParam("typeFilter2") String typeFilter2,
 			@ModelAttribute("activeListIndex") Integer activeListIndex,
-			@ModelAttribute("activeList") List<Pokemon> activeList) {
+			@ModelAttribute("activeList") List<Pokemon> activeList,
+			@ModelAttribute("types") Type[] types) {
+		
 		ModelAndView mv = new ModelAndView("details");
+		mv.addObject("types", types);
+		
 		if (typeFilter1.equals("none") && typeFilter2.equals("none")) {
 			activeList = dao.getAllPokemon();
 			mv.addObject("activeList", activeList);
@@ -178,8 +186,10 @@ public class PokemonController {
 	
 	@RequestMapping(path="prev.do", method=RequestMethod.GET)
 	public ModelAndView previousDetail(@ModelAttribute("activeListIndex") Integer activeListIndex,
-			@ModelAttribute("activeList") List<Pokemon> activeList) {
+			@ModelAttribute("activeList") List<Pokemon> activeList,
+			@ModelAttribute("types") Type[] types) {
 		ModelAndView mv = new ModelAndView("details");
+		mv.addObject("types", types);
 		activeListIndex = activeListIndex - 1;
 		mv.addObject("activeListIndex", activeListIndex);
 		mv.addObject("activeList", activeList);
@@ -208,8 +218,10 @@ public class PokemonController {
 	
 	@RequestMapping(path="next.do", method=RequestMethod.GET)
 	public ModelAndView nextDetail(@ModelAttribute("activeListIndex") Integer activeListIndex,
-			@ModelAttribute("activeList") List<Pokemon> activeList) {
+			@ModelAttribute("activeList") List<Pokemon> activeList,
+			@ModelAttribute("types") Type[] types) {
 		ModelAndView mv = new ModelAndView("details");
+		mv.addObject("types", types);
 		activeListIndex = activeListIndex + 1;
 		mv.addObject("activeListIndex", activeListIndex);
 		mv.addObject("activeList", activeList);
@@ -240,8 +252,10 @@ public class PokemonController {
 	@RequestMapping(path="updatePokemon.do", method=RequestMethod.POST)
 	public ModelAndView updatePokemon(@ModelAttribute("activeListIndex") Integer activeListIndex,
 			@ModelAttribute("activeList") List<Pokemon> activeList,
+			@ModelAttribute("types") Type[] types,
 			Pokemon pokemon) {
 		ModelAndView mv = new ModelAndView("details");
+		mv.addObject("types", types);
 		dao.updatePokemonInPokedex(pokemon);
 		activeList = dao.getAllPokemon();
 		activeListIndex = activeList.indexOf(pokemon);
@@ -262,17 +276,17 @@ public class PokemonController {
 		return mv;
 	}
 	
-	/**
-	 * Shows add view with blank model pokemon
-	 * @return
-	 */
-	
-	@RequestMapping(path="add.do", method=RequestMethod.GET)
-	public ModelAndView addNewPokemonToPokedex() {
-		ModelAndView mv = new ModelAndView("add");
-		mv.addObject("modelPokemon", new Pokemon());
-		return mv;
-	}
+//	/**
+//	 * Shows add view with blank model pokemon
+//	 * @return
+//	 */
+//	
+//	@RequestMapping(path="add.do", method=RequestMethod.GET)
+//	public ModelAndView addNewPokemonToPokedex() {
+//		ModelAndView mv = new ModelAndView("add");
+//		mv.addObject("modelPokemon", new Pokemon());
+//		return mv;
+//	}
 	
 	/**
 	 * adds newly created pokemon to pokedex, redirects to detail view
@@ -299,7 +313,8 @@ public class PokemonController {
 	@RequestMapping(path = "showAddedDetail.do", method = RequestMethod.GET)
 	public ModelAndView showAddedDetail(@ModelAttribute("activePokemon") Pokemon activePokemon,
 			@ModelAttribute("activeListIndex") Integer activeListIndex,
-			@ModelAttribute("activeList") List<Pokemon> activeList) {
+			@ModelAttribute("activeList") List<Pokemon> activeList,
+			@ModelAttribute("types") Type[] types) {
 		ModelAndView mv = new ModelAndView("details");
 		activeList = dao.getAllPokemon();
 		mv.addObject("activePokemon", activePokemon);
@@ -332,7 +347,8 @@ public class PokemonController {
 			@ModelAttribute("previousPokemon") Pokemon previousPokemon,
 			@ModelAttribute("nextPokemon") Pokemon nextPokemon,
 			@ModelAttribute("activeList") List<Pokemon> activeList,
-			@ModelAttribute("activeListIndex") Integer activeListIndex) {
+			@ModelAttribute("activeListIndex") Integer activeListIndex,
+			@ModelAttribute("types") Type[] types) {
 		ModelAndView mv = new ModelAndView("details");
 		dao.deletePokemonFromPokedex(activePokemon);
 		activeList.remove(activePokemon);
